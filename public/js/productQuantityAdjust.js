@@ -1,37 +1,39 @@
-if (document.getElementById('plus')) {
-  document.getElementById('plus').addEventListener('click', event => {
-    event.preventDefault();
+const plus = document.getElementById('plus');
+const minus = document.getElementById('minus');
+const priceValID = document.getElementById('priceValue');
+const priceHidID = document.getElementById('priceHidden');
+const quantityID = document.getElementById('quantity');
+const total = document.getElementById('total');
+let priceValue = parseFloat(priceValID.value);
+let quantity = parseFloat(quantityID.value);
+let priceHidden = parseFloat(priceHidID.value);
 
-    let priceValue = parseFloat(document.getElementById('priceValue').value);
-    let quantity = parseFloat(document.getElementById('quantity').value);
-    let priceHidden = parseFloat(document.getElementById('priceHidden').value);
+if (plus) {
+    plus.addEventListener('click', (event) => {
+        event.preventDefault();
 
-    priceValue += priceHidden;
-    quantity += 1;
-    document.getElementById('quantity').value = quantity;
-    document.getElementById('priceValue').value = priceValue.toFixed(2);
-    document.getElementById('total').innerHTML = quantity;
-  });
-}
+        priceValue += priceHidden;
+        quantity += 1;
+        quantityID.value = quantity;
+        priceValID.value = priceValue.toFixed(2);
+        total.innerHTML = quantity;
+    });
+};
 
-if (document.getElementById('minus')) {
-  document.getElementById('minus').addEventListener('click', event => {
-    event.preventDefault();
+if (minus) {
+    minus.addEventListener('click', (event) => {
+        event.preventDefault();
 
-    let priceValue = parseFloat(document.getElementById('priceValue').value);
-    let quantity = parseFloat(document.getElementById('quantity').value);
-    let priceHidden = parseFloat(document.getElementById('priceHidden').value);
-
-    if (quantity === 1) {
-      quantity = 1;
-      priceValue = priceHidden;
-      return;
-    } else {
-      priceValue -= priceHidden;
-      quantity -= 1;
-      document.getElementById('quantity').value = quantity;
-      document.getElementById('priceValue').value = priceValue.toFixed(2);
-      document.getElementById('total').innerHTML = quantity;
-    }
-  });
-}
+        if (quantity === 1) {
+            quantity = 1;
+            priceValue = priceHidden;
+            return;
+        } else {
+            priceValue -= priceHidden;
+            quantity -= 1;
+            quantityID.value = quantity;
+            priceValID.value = priceValue.toFixed(2);
+            total.innerHTML = quantity;
+        };
+    });
+};

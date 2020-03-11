@@ -118,4 +118,5 @@ router.put('/update-password', (req, res) => {
       return res.redirect('/api/users/update-profile');
     });
 });
+
 module.exports = router;

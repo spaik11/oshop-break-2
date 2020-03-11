@@ -41,6 +41,7 @@ module.exports = {
       }
     });
   },
+  
   updateProfile: (params, id) => {
     const {
       name,

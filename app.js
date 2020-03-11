@@ -11,12 +11,13 @@ const passport = require('passport');
 const methodOverride = require('method-override');
 require('./lib/passport');
 
+const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users/userRoutes');
 const adminRouter = require('./routes/admin/adminRoutes');
 const productRouter = require('./routes/admin/products/productRouter');
 const cartRouter = require('./routes/cart/cartRoutes');
 
-const getAllCategories = require('./route/admin/middleware/getAllCategories');
+const getAllCategories = require('./routes/admin/middleware/getAllCategories');
 const cartTotal = require('./routes/cart/middleware/cartTotal');
 const app = express();
 require('dotenv').config();
@@ -41,9 +42,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
-app.use(getAllCategories);
-app.use(flash());
-
 app.use(
   session({
     resave: true,
@@ -57,6 +55,10 @@ app.use(
   })
 );
 
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.errors = req.flash('error');
@@ -66,7 +68,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(getAllCategories);
 app.use(cartTotal);
+
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/admin', adminRouter);
